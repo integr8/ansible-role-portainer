@@ -24,14 +24,15 @@ services:
       - portainer_data:/data
     networks:
       - integr8
-    labels:
-      - traefik.backend=portainer
-      - traefik.frontend.rule=Host:portainer.integr8.me
-      - traefik.port=9000
-      - traefik.docker.network=integr8
     deploy:
       mode: replicated
       replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.frontend.rule=Host:{{ portainer_host }}
+        - traefik.backend=portainer
+        - traefik.port=9000
+        - traefik.docker.network=integr8
       placement:
         constraints: [node.role == manager]
 
